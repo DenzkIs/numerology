@@ -1,0 +1,17 @@
+.sq-matrix {
+
+    border-radius: 5px;
+    text-align: center;
+    font-family: cursive;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px #000;
+}
+.sq-matrix2 {
+    background: #C79B6C;
+    border-radius: 5px;
+    text-align: center;
+    font-family: cursive;
+    font-size: 20px;
+    color: #853131;
+}

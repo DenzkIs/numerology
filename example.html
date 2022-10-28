@@ -1,0 +1,412 @@
+
+<html>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<head>
+
+<title>solnel_numero</title>
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/matrix.js"></script>
+
+<script>
+
+var matrix = new Matrix();
+
+$(function() {
+	$('#input_day').on('input', syncState);
+	$('#input_month').on('input', syncState);
+	$('#input_year').on('input', syncState);
+	
+	$("#input_day").keypress(onKeyPress);
+	$("#input_month").keypress(onKeyPress);
+	$("#input_year").keypress(onKeyPress);
+	
+	$("#btn_calc").click(function(){ calculate(); });
+});
+
+function getTextLength(inputElement) {
+	return $(inputElement).val().length;
+}
+
+function isEmpty(inputElement) {
+	return getTextLength(inputElement) == 0;
+}
+
+function getIntValue(inputElement) {
+	var inputText = $(inputElement).val();
+	if (!isEmpty(inputElement) && /^\d+$/.test(inputText)) {
+		return parseInt(inputText, 10);
+	}
+	
+	return NaN;
+}
+
+function findNextInput(element) {
+	return $(element).closest('div').next('div').find('input:text');
+}
+
+function syncState(event) {
+	$("#btn_calc").prop('disabled', !validateAllInputs());
+	
+	if ($("#fate_number").text().length > 0) {
+		resetUI();
+	}
+}
+
+function onKeyPress(event) {
+	if (event.which == 13) {
+		var nextInput = findNextInput(event.target);
+		if (nextInput != null) {
+			event.preventDefault();
+			validateAllInputs();
+			nextInput.focus();
+		}
+	}
+}
+
+function validateAllInputs() {
+	var isValidDay = validateInput("#input_day")
+	var isValidMonth = validateInput("#input_month");
+	var isValidYear = validateInput("#input_year");
+	
+	return isValidDay && isValidMonth && isValidYear;
+}
+
+function validateYear(year) {
+	return !isNaN(year) && year >= 1900 && year <= 2050;
+}
+
+function validateMonth(month) {
+	return !isNaN(month) && month >= 1 && month <= 12;
+}
+
+function validateDay(day, daysInMonth) {
+	return !isNaN(day) && day >= 1 && day <= daysInMonth;
+}
+
+function validateInput(controlId) {
+	var valid = false;
+	
+	switch(controlId) {
+		case "#input_year":
+							if (getTextLength("#input_year") == 4) {
+								valid = validateYear(getIntValue("#input_year"));
+								showError("#input_year", !valid);
+							} else {
+								showError("#input_year", false);
+							}
+							break;
+		case "#input_month":
+							valid = validateMonth(getIntValue("#input_month"));
+							showError("#input_month", !valid);
+							break;
+		case "#input_day":				
+							var day = getIntValue("#input_day");
+							valid = validateDay(getIntValue("#input_day"), 31);
+							
+							if (!isEmpty("#input_month") && $("#input_year").val().length == 4) {
+								var month = getIntValue("#input_month");
+								var year = getIntValue("#input_year");
+								if (validateYear(year) && validateMonth(month)) {
+									var daysInMonth = new Date(year, month, 0).getDate();
+									valid = validateDay(getIntValue("#input_day"), daysInMonth);
+								}
+							}
+							showError("#input_day", !valid);
+							break;
+	}
+	
+	return valid;
+}
+
+function showError(element, show) {
+	if (show && !isEmpty(element)) {
+		$(element).parent().addClass("has-error");
+	} else {
+		$(element).parent().removeClass("has-error");
+	}
+}
+
+function resetUI() {
+	$("#matrix_1").html('');
+	$("#matrix_2").html('');
+	$("#matrix_3").html('');
+	$("#matrix_4").html('');
+	$("#matrix_5").html('');
+	$("#matrix_6").html('');
+	$("#matrix_7").html('');
+	$("#matrix_8").html('');
+	$("#matrix_9").html('');
+	
+	$("#fate_number").text('');
+	$("#temperament_number").text('');
+	$("#aim_number").text('');
+	$("#family_number").text('');
+	$("#habbits_number").text('');
+	$("#every_day_life_number").text('');
+	$("#matrix_string").text('-');
+}
+
+function calculate() {
+	var day = getIntValue("#input_day");
+	var month = getIntValue("#input_month");
+	var year = getIntValue("#input_year");
+	
+	matrix.init(day, month, year);
+	
+	$("#matrix_1").html(matrix.array[0]);
+	$("#matrix_2").html(matrix.array[1]);
+	$("#matrix_3").html(matrix.array[2]);
+	$("#matrix_4").html(matrix.array[3]);
+	$("#matrix_5").html(matrix.array[4]);
+	$("#matrix_6").html(matrix.array[5]);
+	$("#matrix_7").html(matrix.array[6]);
+	$("#matrix_8").html(matrix.array[7]);
+	$("#matrix_9").html(matrix.array[8]);
+	
+	$("#fate_number").text(matrix.fate_num);
+	$("#temperament_number").text(matrix.temperament_num);
+	$("#aim_number").text(matrix.aim_num);
+	$("#family_number").text(matrix.family_num);
+	$("#habbits_number").text(matrix.habbits_num);
+	$("#every_day_life_number").text(matrix.every_day_life_num);
+	
+	$("#matrix_string").text(matrix.getString());
+}
+
+</script>
+
+<style>
+
+body {
+	padding: 10px;
+	background-image: url('img/bg_solnel_numero.jpg');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+}
+
+.input-group-addon {
+    min-width: calc(45px + 4vw);
+    text-align: left;
+	padding-left: 8px;
+	padding-right: 8px;
+	font-size: 0.7em;
+	font-size: calc(8px + 1vw);
+	vertical-align: middle;
+	background: #bc929e;
+	color: #fff;
+	border-color: #bc929e;
+}
+
+.btn-default {
+	font-size: 0.7em;
+	font-size: calc(8px + 1vw);
+	background: #bc929e;
+	color: #fff;
+}
+
+.input-group {
+	margin-top: 20px
+}
+
+.form-control {
+	max-width: 100px;
+	font-size: 0.7em;
+	font-size: calc(8px + 1vw);
+	border-color: #bc929e;
+	background: #0000;
+	color: #000;
+}
+
+.instagram_link {
+	font-size: 0.7em;
+	font-size: calc(8px + 1vw);
+	text-align: center;
+	vertical-align: middle;
+}
+
+.matrix_table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.matrix_td_selected {
+	border: 1px solid black;
+	text-align: center;
+	background: #bc929e;
+	width: 25%;
+	height: 10vh;
+}
+
+.matrix_td {
+	border: 1px solid black;
+	text-align: center;
+}
+
+.matrix_td_selected_title {
+	font-size: 0.7em;
+	font-size: calc(8px + 1vw);
+	color: #fff
+}
+
+.matrix_td_selected_value {
+	font-size: 1.2em;
+	font-size: calc(8px + 1.8vw);
+	color: #fff;
+	margin-top: 5px;
+}
+
+.matrix_td_title {
+	font-size: 0.7em;
+	font-size: calc(8px + 1vw);
+	color: #000
+}
+
+.matrix_td_value {
+	font-size: 1.2em;
+	font-size: calc(8px + 1.8vw);
+	color: #000;
+	margin-top: 5px;
+}
+
+.matrix_string_title {
+	font-size: 1em;
+	font-size: calc(8px + 1vw);
+	color: #000
+}
+
+.matrix_string_value {
+	font-size: 1.2em;
+	font-size: calc(8px + 1.2vw);
+	color: #000;
+	margin-top: 5px;
+}
+
+</style>
+
+</head>
+
+<body>
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="input-group">
+				<span class="input-group-addon">День</span>
+				<input id="input_day" type="text" class="form-control" placeholder="День" maxlength="2" autocomplete="off">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Месяц</span>
+				<input id="input_month" type="text" class="form-control" placeholder="Месяц" maxlength="2" autocomplete="off">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Год</span>
+				<input id="input_year" type="text" class="form-control" placeholder="Год" maxlength="4" autocomplete="off">
+			</div>
+			<div class="input-group">
+				<button type="button" class="btn btn-default" id="btn_calc" disabled>Расчет</button>
+			</div>
+		</div>
+		
+		<a href="https://instagram.com/solnel_numero" class="col-xs-6" style="margin-top: 20px">
+			<div align="right">
+				<div style="max-width:195px">
+					<img src="img/logo_solnel_numero.png" class="img" style="width:100%;" alt="Avatar"/>
+					<div align="center" style="margin-top: 5px;">
+						<img src="img/instagram_small.png" class="img" style="width:13%;" alt="Instagram logo"/>
+						<span class="instagram_link">solnel_numero</span>
+					</div>
+				</div>	
+			</div>
+		</a>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<table class="matrix_table">
+				<tr>
+					<td class="matrix_td_selected">
+						<div class="matrix_td_selected_title">Число судьбы</div>
+						<div class="matrix_td_selected_value" id="fate_number"></div>
+					</td>
+					<td class="matrix_td_selected">
+						<div class="matrix_td_selected_title">Быт</div>
+						<div class="matrix_td_selected_value" id="every_day_life_number"></div>
+					</td>
+					<td class="matrix_td_selected"></td>
+					<td class="matrix_td_selected">
+						<div class="matrix_td_selected_title">Темперамент</div>
+						<div class="matrix_td_selected_value" id="temperament_number"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Характер</div>
+						<div class="matrix_td_value" id="matrix_1"></div>
+					</td>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Здоровье</div>
+						<div class="matrix_td_value" id="matrix_4"></div>
+					</td>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Удача</div>
+						<div class="matrix_td_value" id="matrix_7"></div>
+					</td>
+					<td class="matrix_td_selected">
+						<div class="matrix_td_selected_title">Цель</div>
+						<div class="matrix_td_selected_value" id="aim_number"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Энергия</div>
+						<div class="matrix_td_value" id="matrix_2"></div>
+					</td>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Логика</div>
+						<div class="matrix_td_value" id="matrix_5"></div>
+					</td>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Долг</div>
+						<div class="matrix_td_value" id="matrix_8"></div>
+					</td>
+					<td class="matrix_td_selected">
+						<div class="matrix_td_selected_title">Семья</div>
+						<div class="matrix_td_selected_value" id="family_number"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Интерес</div>
+						<div class="matrix_td_value" id="matrix_3"></div>
+					</td>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Труд</div>
+						<div class="matrix_td_value" id="matrix_6"></div>
+					</td>
+					<td class="matrix_td">
+						<div class="matrix_td_title">Память</div>
+						<div class="matrix_td_value" id="matrix_9"></div>
+					</td>
+					<td class="matrix_td_selected">
+						<div class="matrix_td_selected_title">Привычки</div>
+						<div class="matrix_td_selected_value" id="habbits_number"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<div class="row" style="margin-top:20px">
+		<div class="col-xs-12">
+			<div class="matrix_string_title">Указывайте матрицу в комментариях в таком виде:</div>
+			<div class="matrix_string_value" id="matrix_string">-</div>
+		</div>
+	</div>	
+</body>
+
+</html>
