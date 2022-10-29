@@ -7,10 +7,9 @@
         <title>Bootstrap demo</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'matrix/styles.css' %}">
-
+        <img src="{% static 'img/wallpaperbetter.jpg' %}" class="background" style="z-index: -1"/>
     </head>
-    <body style="background-color: #FFFFF0" background="{% static 'img/wallpaperbetter.jpg' %}">
-
+    <body>
         <div class="container mt-5 mb-5">
             <div class="row">
                 <div class="col-md-4 text-center"></div>
@@ -19,7 +18,7 @@
                     <a class="navbar-brand" href="https://www.instagram.com/daryamatrix/">
                         <img src="{% static 'img/inst-icon3.png' %}" style="max-width: 65px">
                     </a>
-                    <a class="navbar-brand" href="https://www.instagram.com/daryamatrix/">
+                    <a class="navbar-brand" href="https://t.me/daryamatrix/">
                         <img src="{% static 'img/teleg-icon3.png' %}" style="max-width: 60px;">
                     </a>
                 </div>
@@ -57,106 +56,106 @@
             </div>
         </div>
         {% endif %}
-        <div class="container-fluid">
-            <div class="row g-2 mt-1">
+        <div class="container-fluid" style="max-width: 720px">
+            <div class="row g-2" style="margin-top: 0.5px">
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2" style="padding: 1px">
                         Дата рождения:<br>
                         {{ bd }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2">
                         Быт:<br>
                         {{ life }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2">
                         Число судьбы:<br>
                         {{ second_dop_num }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2">
                         Темперамент:<br>
                         {{ temperament }}
                     </div>
                 </div>
             </div>
-            <div class="row g-2 mt-1">
+            <div class="row g-2" style="margin-top: 0.5px">
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Характер:<br>
                         {{ character }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Здоровье:<br>
                         {{ health }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Удача:<br>
                         {{ luck }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2">
                         Цель:<br>
                         {{ goal }}
                     </div>
                 </div>
             </div>
-            <div class="row g-2 mt-1">
+            <div class="row g-2" style="margin-top: 0.5px">
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Энергия:<br>
                         {{ energy }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Логика:<br>
                         {{ logic }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Долг:<br>
                         {{ debt }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2">
                         Семья:<br>
                         {{ family }}
                     </div>
                 </div>
             </div>
-            <div class="row g-2 mt-1">
+            <div class="row g-2" style="margin-top: 0.5px">
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Интерес:<br>
                         {{ interest }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Труд:<br>
                         {{ work }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix">
+                    <div class="p-4 sq-matrix">
                         Память:<br>
                         {{ memory }}
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="p-3 sq-matrix2">
+                    <div class="p-4 sq-matrix2">
                         Привычки:<br>
                         {{ habit }}
                     </div>

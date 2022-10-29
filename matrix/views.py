@@ -20,7 +20,7 @@ def home(request):
             return False
     if validate_date(y, m, d):
         birthdate = d + m + y
-        bd = f'{d}.{m}.{y}'
+        bd = f'{int(d):02}.{int(m):02}.{int(y):04}'
         first_dop_num = 0
         for i in birthdate:
             first_dop_num += int(i)
@@ -80,8 +80,10 @@ def home(request):
         'temperament': temperament if temperament else 'нет',
         'dop_nums': f'{first_dop_num}, {second_dop_num}, {third_dop_num}, {fourth_dop_num}',
         'bd_show': bd_show,
-        'code': f'{character}/{energy}/{interest}/{health}/{logic}/{work}/{luck}/{debt}/{memory} \
-        ЧС{second_dop_num}\\Быт {life}\\Т{temperament}\\Ц{goal}\\С{family}\\П{habit}'
-        #
+        'code': f"{character if character else '-'}/{energy if energy else '-'}/{interest if interest else '-'}"
+                f"/{health if health else '-'}/{logic if logic else '-'}/{work if work else '-'}/{luck if luck  else '-'}"
+                f"/{debt if debt else '-'}/{memory if memory else '-'} ЧС{second_dop_num}\\Быт {life if life else '-'}"
+                f"\\Т{temperament if temperament else '-'}\\Ц{goal if goal else '-'}\\С{family if family else '-'}"
+                f"\\П{habit if habit else '-'}"
     }
                   )
