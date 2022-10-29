@@ -1,13 +1,26 @@
 from django.shortcuts import render
+from django.contrib import messages
 from django.http import HttpResponse
+from datetime import date
 
 
 # Create your views here.
 def home(request):
-    birthdate_dirty = request.GET.get('s')
-    if birthdate_dirty:
-        birthdate = birthdate_dirty[-2:] + birthdate_dirty[5:7] + birthdate_dirty[:4]
-        bd = f'{birthdate_dirty[-2:]}.{birthdate_dirty[5:7]}.{birthdate_dirty[:4]}'
+
+    d = request.GET.get('d')
+    m = request.GET.get('m')
+    y = request.GET.get('y')
+    bd_show = False
+
+    def validate_date(a, b, c):
+        try:
+            date(int(a), int(b), int(c))
+            return True
+        except:
+            return False
+    if validate_date(y, m, d):
+        birthdate = d + m + y
+        bd = f'{d}.{m}.{y}'
         first_dop_num = 0
         for i in birthdate:
             first_dop_num += int(i)
@@ -31,36 +44,20 @@ def home(request):
         debt = birthdate_dop_num.count('8') * '8'
         memory = birthdate_dop_num.count('9') * '9'
         life = len(health + logic + work)
-        print('Быт =', life if life else 'нет')
         goal = len(character + health + luck)
-        print('Цель =', goal if goal else 'нет')
         family = len(energy + logic + debt)
-        print('Семья =', family if family else 'нет')
         habit = len(interest + work + memory)
-        print('Привычки =', habit if habit else 'нет')
         temperament = len(interest + logic + luck)
-        print('Темперамент =', temperament if temperament else 'нет')
+        bd_show = True
+    elif (d or m or y) and not validate_date(y, m, d):
+        messages.add_message(request, messages.SUCCESS, 'Введена неверная дата рождения')
+        bd = '--.--.----'
+        first_dop_num = second_dop_num = third_dop_num = fourth_dop_num = character = energy = interest = health\
+            = logic = work = luck = debt = memory = life = goal = family = habit = temperament = '-'
     else:
         bd = '--.--.----'
-        first_dop_num = '-'
-        second_dop_num = '-'
-        third_dop_num = '-'
-        fourth_dop_num = '-'
-        character = '-'
-        energy = '-'
-        interest = '-'
-        health = '-'
-        logic = '-'
-        work = '-'
-        luck = '-'
-        debt = '-'
-        memory = '-'
-        life = '-'
-        goal = '-'
-        family = '-'
-        habit = '-'
-        temperament = '-'
-
+        first_dop_num = second_dop_num = third_dop_num = fourth_dop_num = character = energy = interest = health\
+            = logic = work = luck = debt = memory = life = goal = family = habit = temperament = '-'
     return render(request, 'matrix/home.html', {
         'bd': bd,
         'first_dop_num': first_dop_num,
@@ -82,5 +79,9 @@ def home(request):
         'habit': habit if habit else 'нет',
         'temperament': temperament if temperament else 'нет',
         'dop_nums': f'{first_dop_num}, {second_dop_num}, {third_dop_num}, {fourth_dop_num}',
+        'bd_show': bd_show,
+        'code': f'{character}/{energy}/{interest}/{health}/{logic}/{work}/{luck}/{debt}/{memory} \
+        ЧС{second_dop_num}\\Быт {life}\\Т{temperament}\\Ц{goal}\\С{family}\\П{habit}'
+        #
     }
                   )
