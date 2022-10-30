@@ -6,6 +6,8 @@
     font-size: 15px;
     color: black;
     opacity: 0.7;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .sq-matrix2 {
@@ -17,6 +19,8 @@
     color: black;
     opacity: 0.7;
     word-wrap: break-word;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .codebd {
@@ -40,5 +44,19 @@ img.background {
 	  left: 50%;
 	  margin-left: -320px;
 	}
+  }
+}
+
+@media screen and (max-width: 692px) {
+  div.sq-matrix {
+    font-size: 10px;
+
+  }
+}
+
+@media screen and (max-width: 692px) {
+  div.sq-matrix2 {
+    font-size: 10px;
+
   }
 }
